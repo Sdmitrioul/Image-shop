@@ -1,4 +1,4 @@
-package ru.skroba.base;
+package ru.skroba.shop.base;
 
 import java.util.Arrays;
 

@@ -15,7 +15,7 @@ public enum Currency {
         return name;
     }
     
-    public Currency getCurrencyByName(String name) {
+    public static Currency getCurrencyByName(String name) {
         return Arrays.stream(Currency.values())
                 .filter(it -> it.name.equals(name))
                 .findFirst()

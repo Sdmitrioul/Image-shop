@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'co.uzzu.dotenv.gradle' version "2.0.0"
+    id 'base'
 }
 
 group 'ru.skroba'
@@ -7,11 +10,20 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    google()
+}
+
+application {
+    mainClass = 'ru.skroba.Main'
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+run {
+    environment = env.allVariables
 }
 
 test {

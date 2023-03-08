@@ -1,2 +1,7 @@
-package ru.skroba;public class Main {
+package ru.skroba;
+
+public class Main {
+    public static void main(String[] args) {
+    
+    }
 }

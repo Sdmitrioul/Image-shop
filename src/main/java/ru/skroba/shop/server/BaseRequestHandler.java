@@ -52,5 +52,5 @@ public abstract class BaseRequestHandler implements RequestHandler {
         return handlerMap.keySet();
     }
     
-    protected abstract InternalResponse handlerImpl(final HttpServerRequest<ByteBuf> request);
+    protected abstract InternalResponse handlerImpl(final HttpServerRequest<ByteBuf> request) throws HandlerException;
 }

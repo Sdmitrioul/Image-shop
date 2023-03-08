@@ -10,7 +10,6 @@ public class User implements MongoModel {
     private final long userId;
     
     private final String userName;
-    
     private final Currency userCurrency;
     
     public User(final long userId, final String userName, final Currency userCurrency) {
@@ -24,6 +23,14 @@ public class User implements MongoModel {
                 Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class)));
     }
     
+    public String getUserName() {
+        return userName;
+    }
+    
+    public Currency getUserCurrency() {
+        return userCurrency;
+    }
+    
     @Override
     public String toString() {
         return "user: {" + "userId: " + userId + ", userName: '" + userName + '\'' + ", userCurrency: " + userCurrency.getName() + '}';
@@ -33,5 +40,10 @@ public class User implements MongoModel {
     public Document getModel() {
         return new Document(USER_ID_FIELD_NAME, userId).append(USER_NAME_FIELD_NAME, userName)
                 .append(CURRENCY_FIELD_NAME, userCurrency.getName());
+    }
+    
+    @Override
+    public long getId() {
+        return this.userId;
     }
 }

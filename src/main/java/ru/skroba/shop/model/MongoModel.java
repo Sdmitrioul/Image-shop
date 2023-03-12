@@ -6,4 +6,8 @@ public interface MongoModel {
     Document getModel();
     
     long getId();
+    
+    static String getIdFieldName() {
+        return "id";
+    }
 }

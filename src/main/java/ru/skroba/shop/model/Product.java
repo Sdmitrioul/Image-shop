@@ -19,11 +19,15 @@ public class Product implements MongoModel {
         this.productPrice = productPrice;
         this.currency = currency;
     }
-
+    
     public static Product of(final Document doc) {
         return new Product(doc.get(PRODUCT_ID_FIELD_NAME, Long.class), doc.get(PRODUCT_NAME_FIELD_NAME, String.class),
                 doc.get(PRODUCT_PRICE_FIELD_NAME, Long.class),
                 Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class)));
+    }
+    
+    public static String getIdFieldName() {
+        return Product.PRODUCT_ID_FIELD_NAME;
     }
     
     public String getProductName() {

@@ -46,4 +46,8 @@ public class User implements MongoModel {
     public long getId() {
         return this.userId;
     }
+    
+    public String getIdFieldName() {
+        return User.USER_ID_FIELD_NAME;
+    }
 }

@@ -32,7 +32,7 @@ public abstract class BaseRepository<E extends MongoModel> implements Repository
     
     @Override
     public Observable<Boolean> addEntity(final E model) {
-        return getCollection().find(eq(E.getIdFieldName(), model.getId()))
+        return getCollection().find(eq(E.getIdFieldName(), model.id()))
                 .toObservable()
                 .singleOrDefault(null)
                 .flatMap(doc -> doc != null ? Observable.just(false) : insert(model));
@@ -45,7 +45,7 @@ public abstract class BaseRepository<E extends MongoModel> implements Repository
                 .map(it -> !it);
     }
     
-    private MongoCollection<Document> getCollection() {
+    protected MongoCollection<Document> getCollection() {
         return database.getDatabase()
                 .getCollection(collectionName);
     }

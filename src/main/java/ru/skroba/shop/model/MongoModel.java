@@ -5,7 +5,7 @@ import org.bson.Document;
 public interface MongoModel {
     Document getModel();
     
-    long getId();
+    long id();
     
     static String getIdFieldName() {
         return "id";

@@ -1,5 +1,7 @@
 package ru.skroba.shop.base;
 
+import ru.skroba.shop.exception.EntityException;
+
 import java.util.Arrays;
 
 public enum Currency {
@@ -11,14 +13,21 @@ public enum Currency {
         this.name = name;
     }
     
-    public String getName() {
-        return name;
-    }
-    
-    public static Currency getCurrencyByName(String name) {
+    public static Currency getCurrencyByName(String name) throws EntityException {
         return Arrays.stream(Currency.values())
                 .filter(it -> it.name.equals(name))
                 .findFirst()
-                .orElse(USD);
+                .orElseThrow(() -> new EntityException("Unknown currency"));
+    }
+    
+    public static Currency getCurrencyByName(String name, Currency defaultValue) {
+        return Arrays.stream(Currency.values())
+                .filter(it -> it.name.equals(name))
+                .findFirst()
+                .orElse(defaultValue);
+    }
+    
+    public String getName() {
+        return name;
     }
 }

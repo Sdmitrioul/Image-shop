@@ -20,7 +20,7 @@ public class User implements MongoModel {
     
     public static User of(final Document doc) {
         return new User(doc.get(USER_ID_FIELD_NAME, Long.class), doc.get(USER_NAME_FIELD_NAME, String.class),
-                Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class)));
+                Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class), Currency.USD));
     }
     
     public String getUserName() {
@@ -43,7 +43,7 @@ public class User implements MongoModel {
     }
     
     @Override
-    public long getId() {
+    public long id() {
         return this.userId;
     }
     

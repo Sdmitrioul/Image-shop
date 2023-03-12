@@ -10,20 +10,28 @@ public class Product implements MongoModel {
     private static final String CURRENCY_FIELD_NAME = "currency";
     private final long productId;
     private final String productName;
-    private final long productPrice;
+    private final double productPrice;
     private final Currency currency;
     
-    public Product(final long productId, final String productName, final long productPrice, final Currency currency) {
+    private CurrencyExchangeRate baseRate;
+    
+    public void setBaseRate(final CurrencyExchangeRate baseRate) {
+        this.baseRate = baseRate;
+    }
+    
+    public Product(final long productId, final String productName, final double productPrice, final Currency currency) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.currency = currency;
+        
+        this.baseRate = new CurrencyExchangeRate(0, currency, currency, 1);
     }
     
     public static Product of(final Document doc) {
         return new Product(doc.get(PRODUCT_ID_FIELD_NAME, Long.class), doc.get(PRODUCT_NAME_FIELD_NAME, String.class),
-                doc.get(PRODUCT_PRICE_FIELD_NAME, Long.class),
-                Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class)));
+                doc.get(PRODUCT_PRICE_FIELD_NAME, Double.class),
+                Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class), Currency.USD));
     }
     
     public static String getIdFieldName() {
@@ -34,7 +42,7 @@ public class Product implements MongoModel {
         return productName;
     }
     
-    public long getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
     
@@ -44,11 +52,12 @@ public class Product implements MongoModel {
     
     @Override
     public String toString() {
-        return this.toString(this.currency);
+        return this.toString(baseRate);
     }
     
-    public String toString(Currency currency) {
-        return "product: " + "productId: " + productId + ", productName: '" + productName + '\'' + ", productPrice: '" + productPrice + currency.getName() + "'}";
+    public String toString(CurrencyExchangeRate rate) {
+        return "product: {" + "productId: " + productId + ", productName: '" + productName + '\'' + ", productPrice: " + "'" + (productPrice * rate.rate()) + rate.bought()
+                .getName() + "'}";
     }
     
     @Override
@@ -59,7 +68,7 @@ public class Product implements MongoModel {
     }
     
     @Override
-    public long getId() {
+    public long id() {
         return this.productId;
     }
 }

@@ -4,9 +4,9 @@ import org.bson.Document;
 import ru.skroba.shop.base.Currency;
 
 public record CurrencyExchangeRate(long id, Currency sold, Currency bought, double rate) implements MongoModel {
-    private static final String CER_ID_FIELD_NAME = "cerId";
     public static final String CER_SOLD_CUR_FIELD_NAME = "cerSold";
     public static final String CER_BOUGHT_CUR_FIELD_NAME = "cerBought";
+    private static final String CER_ID_FIELD_NAME = "cerId";
     private static final String CER_RATE_FIELD_NAME = "cerRate";
     
     public static CurrencyExchangeRate of(final Document document) {
@@ -14,6 +14,10 @@ public record CurrencyExchangeRate(long id, Currency sold, Currency bought, doub
                 Currency.getCurrencyByName(document.get(CER_SOLD_CUR_FIELD_NAME, String.class), Currency.USD),
                 Currency.getCurrencyByName(document.get(CER_BOUGHT_CUR_FIELD_NAME, String.class), Currency.USD),
                 document.get(CER_RATE_FIELD_NAME, Double.class));
+    }
+    
+    public static CurrencyExchangeRate of(Currency sold, Currency bought, Double rate) {
+        return new CurrencyExchangeRate((sold.getName() + bought.getName()).hashCode(), sold, bought, rate);
     }
     
     public static String getIdFieldName() {

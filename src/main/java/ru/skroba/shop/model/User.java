@@ -23,6 +23,10 @@ public class User implements MongoModel {
                 Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class), Currency.USD));
     }
     
+    public static User of(final String userName, final Currency currency) {
+        return new User(userName.hashCode(), userName, currency);
+    }
+    
     public String getUserName() {
         return userName;
     }

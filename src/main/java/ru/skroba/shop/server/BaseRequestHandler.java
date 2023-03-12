@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.protocol.http.server.HttpServerRequest;
 import ru.skroba.shop.exception.ConfigurationException;
 import ru.skroba.shop.exception.HandlerException;
-import ru.skroba.shop.internal.InternalResponse;
+import rx.Observable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public abstract class BaseRequestHandler implements RequestHandler {
     }
     
     @Override
-    public InternalResponse handle(final HttpServerRequest<ByteBuf> request) throws HandlerException {
+    public Observable<String> handle(final HttpServerRequest<ByteBuf> request) throws HandlerException {
         RequestHandler handler = handlerMap.get(request.getDecodedPath());
         
         if (handler == null) {
@@ -52,5 +52,5 @@ public abstract class BaseRequestHandler implements RequestHandler {
         return handlerMap.keySet();
     }
     
-    protected abstract InternalResponse handlerImpl(final HttpServerRequest<ByteBuf> request) throws HandlerException;
+    protected abstract Observable<String> handlerImpl(final HttpServerRequest<ByteBuf> request) throws HandlerException;
 }

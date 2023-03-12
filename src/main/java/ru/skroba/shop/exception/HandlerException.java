@@ -11,4 +11,9 @@ public class HandlerException extends Exception {
     public int getErrorCode() {
         return errorCode;
     }
+    
+    @Override
+    public String toString() {
+        return "{\"error\": {\"code\": " + errorCode + ", \"message\": \"" + getMessage() + "\"}}";
+    }
 }

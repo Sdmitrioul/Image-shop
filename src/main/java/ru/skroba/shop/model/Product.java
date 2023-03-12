@@ -15,10 +15,6 @@ public class Product implements MongoModel {
     
     private CurrencyExchangeRate baseRate;
     
-    public void setBaseRate(final CurrencyExchangeRate baseRate) {
-        this.baseRate = baseRate;
-    }
-    
     public Product(final long productId, final String productName, final double productPrice, final Currency currency) {
         this.productId = productId;
         this.productName = productName;
@@ -34,8 +30,16 @@ public class Product implements MongoModel {
                 Currency.getCurrencyByName(doc.get(CURRENCY_FIELD_NAME, String.class), Currency.USD));
     }
     
+    public static Product of(String productName, double price, Currency currency) {
+        return new Product(productName.hashCode(), productName, price, currency);
+    }
+    
     public static String getIdFieldName() {
         return Product.PRODUCT_ID_FIELD_NAME;
+    }
+    
+    public void setBaseRate(final CurrencyExchangeRate baseRate) {
+        this.baseRate = baseRate;
     }
     
     public String getProductName() {

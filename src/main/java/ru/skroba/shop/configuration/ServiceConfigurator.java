@@ -4,17 +4,37 @@ import ru.skroba.shop.service.CurrencyService;
 import ru.skroba.shop.service.ProductService;
 import ru.skroba.shop.service.UserService;
 
-//TODO
 public class ServiceConfigurator {
+    private final RepositoryConfigurator repositoryConfigurator = new RepositoryConfigurator();
+    
+    private CurrencyService currencyService;
+    private ProductService productService;
+    
+    private UserService userService;
+    
     CurrencyService getCurrencyService() {
-        return null;
+        if (currencyService == null) {
+            currencyService = new CurrencyService(repositoryConfigurator.getCurrencyExchangeRepository());
+        }
+        
+        return currencyService;
     }
     
     ProductService getProductService() {
-        return null;
+        if (productService == null) {
+            productService = new ProductService(repositoryConfigurator.getProductRepository());
+        }
+        
+        return productService;
     }
     
     UserService getUserService() {
-        return null;
+        if (userService == null) {
+            userService = new UserService(repositoryConfigurator.getUserRepository(),
+                    repositoryConfigurator.getProductRepository(),
+                    repositoryConfigurator.getCurrencyExchangeRepository());
+        }
+        
+        return userService;
     }
 }

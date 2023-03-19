@@ -60,7 +60,8 @@ public class Product implements MongoModel {
     }
     
     public String toString(CurrencyExchangeRate rate) {
-        return "product: {" + "productId: " + productId + ", productName: '" + productName + '\'' + ", productPrice: " + "'" + (productPrice * rate.rate()) + rate.bought()
+        return '{' + "\"productId\": " + productId + ", \"productName\": '" + getProductName() + '\'' + ", \"productPrice\": " +
+                "'" + (getProductPrice() * rate.rate()) + rate.bought()
                 .getName() + "'}";
     }
     

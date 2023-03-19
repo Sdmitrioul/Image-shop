@@ -39,6 +39,11 @@ public class CurrencyExchangeRepository extends BaseRepository<CurrencyExchangeR
         return CurrencyExchangeRate.of(doc);
     }
     
+    @Override
+    protected String getIdFieldName() {
+        return CurrencyExchangeRate.getIdFieldName();
+    }
+    
     public Observable<Boolean> upsert(final Currency sold, final Currency bought, final Double rate) {
         var filter = FILTER_FACTORY.apply(sold, bought);
         var cer = CurrencyExchangeRate.of(sold, bought, rate);

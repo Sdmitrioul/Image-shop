@@ -18,7 +18,7 @@ public abstract class BaseRepository<E extends MongoModel> implements Repository
     
     @Override
     public Observable<E> findById(final long id) {
-        return getCollection().find(eq(E.getIdFieldName(), id))
+        return getCollection().find(eq(getIdFieldName(), id))
                 .first()
                 .map(this::factory);
     }
@@ -32,7 +32,7 @@ public abstract class BaseRepository<E extends MongoModel> implements Repository
     
     @Override
     public Observable<Boolean> addEntity(final E model) {
-        return getCollection().find(eq(E.getIdFieldName(), model.id()))
+        return getCollection().find(eq(getIdFieldName(), model.id()))
                 .toObservable()
                 .singleOrDefault(null)
                 .flatMap(doc -> doc != null ? Observable.just(false) : insert(model));
@@ -51,4 +51,6 @@ public abstract class BaseRepository<E extends MongoModel> implements Repository
     }
     
     protected abstract E factory(final Document doc);
+    
+    protected abstract String getIdFieldName();
 }

@@ -18,6 +18,12 @@ application {
 }
 
 dependencies {
+    implementation 'org.slf4j:slf4j-api:2.0.0'
+    implementation 'ch.qos.logback:logback-classic:1.4.0'
+
+    // As one-nio uses log4j directly
+    implementation 'org.slf4j:log4j-over-slf4j:2.0.0'
+
     implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
     implementation 'io.reactivex:rxnetty-http:0.5.3'
     implementation 'io.netty:netty-all:4.1.86.Final'

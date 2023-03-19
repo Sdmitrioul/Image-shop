@@ -6,6 +6,8 @@ import ru.skroba.shop.repository.CurrencyExchangeRepository;
 import ru.skroba.shop.repository.Repository;
 import rx.Observable;
 
+import java.util.List;
+
 public class UserService {
     private final Repository<User> userRepository;
     
@@ -20,25 +22,24 @@ public class UserService {
         this.currencyExchangeRepository = currencyExchangeRepository;
     }
     
-    public Observable<User> getUsers() {
-        return userRepository.findAll();
+    public Observable<List<User>> getUsers() {
+        return userRepository.findAll().toList();
     }
     
     public Observable<Boolean> registerUser(final User user) {
         return userRepository.addEntity(user);
     }
     
-    public Observable<Product> getProductsForUser(final long userId) {
+    public Observable<List<Product>> getProductsForUser(final long userId) {
         return userRepository.findById(userId)
-                .map(User::getUserCurrency)
-                .flatMap(userCurrency -> productsRepository.findAll()
+                .flatMap(user -> productsRepository.findAll()
                         .flatMap(product -> currencyExchangeRepository.getRateBySoldBought(product.getCurrency(),
-                                        userCurrency)
+                                        user.getUserCurrency())
                                 .map(rate -> {
                                     product.setBaseRate(rate);
                                     return product;
                                 })
                         
-                        ));
+                        )).toList();
     }
 }

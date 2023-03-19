@@ -14,4 +14,9 @@ public class ProductRepository extends BaseRepository<Product> {
     protected Product factory(final Document doc) {
         return Product.of(doc);
     }
+    
+    @Override
+    protected String getIdFieldName() {
+        return Product.getIdFieldName();
+    }
 }

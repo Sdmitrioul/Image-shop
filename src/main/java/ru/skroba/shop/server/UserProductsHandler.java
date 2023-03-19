@@ -3,7 +3,8 @@ package ru.skroba.shop.server;
 import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.protocol.http.server.HttpServerRequest;
 import ru.skroba.shop.exception.HandlerException;
-import ru.skroba.shop.model.Product;
+import ru.skroba.shop.response.ArrayResponse;
+import ru.skroba.shop.response.BaseResponse;
 import ru.skroba.shop.service.UserService;
 import rx.Observable;
 
@@ -32,6 +33,9 @@ public class UserProductsHandler extends BaseRequestHandler {
                 })
                 .orElseThrow(() -> new HandlerException(400, "User id is absent!"));
         
-        return userService.getProductsForUser(userId).map(Product::toString);
+        return userService.getProductsForUser(userId)
+                .map(products -> new ArrayResponse(products.toArray()))
+                .map(arrR -> new BaseResponse(200, arrR))
+                .map(BaseResponse::toString);
     }
 }

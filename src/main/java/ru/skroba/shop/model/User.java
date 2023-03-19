@@ -4,8 +4,8 @@ import org.bson.Document;
 import ru.skroba.shop.base.Currency;
 
 public class User implements MongoModel {
-    private static final String USER_ID_FIELD_NAME = "productId";
-    private static final String USER_NAME_FIELD_NAME = "productName";
+    private static final String USER_ID_FIELD_NAME = "userId";
+    private static final String USER_NAME_FIELD_NAME = "userName";
     private static final String CURRENCY_FIELD_NAME = "currency";
     private final long userId;
     
@@ -37,7 +37,7 @@ public class User implements MongoModel {
     
     @Override
     public String toString() {
-        return "user: {" + "userId: " + userId + ", userName: '" + userName + '\'' + ", userCurrency: " + userCurrency.getName() + '}';
+        return "{" + "\"userId\": " + userId + ", \"userName\": '" + getUserName() + '\'' + ", \"userCurrency\": '" + userCurrency.getName() + "'}";
     }
     
     @Override
@@ -51,7 +51,7 @@ public class User implements MongoModel {
         return this.userId;
     }
     
-    public String getIdFieldName() {
+    public static String getIdFieldName() {
         return User.USER_ID_FIELD_NAME;
     }
 }

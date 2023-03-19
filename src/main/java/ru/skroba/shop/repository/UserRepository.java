@@ -14,4 +14,9 @@ public class UserRepository extends BaseRepository<User> {
     protected User factory(final Document doc) {
         return User.of(doc);
     }
+    
+    @Override
+    protected String getIdFieldName() {
+        return User.getIdFieldName();
+    }
 }
